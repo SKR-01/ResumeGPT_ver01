@@ -10,6 +10,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 from langchain.document_loaders.csv_loader import CSVLoader
 
@@ -20,6 +21,15 @@ from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 
 
+current_directory = os.getcwd()
+
+# Specify the file name (change this to the actual file name)
+file_name = "resume.csv"
+
+# Join the current directory with the file name to get the full file path
+FILE_PATH = os.path.join(current_directory, file_name)
+
+print("L32: ", FILE_PATH)
 llm_2 = ChatOpenAI(
     temperature=0.2,
     openai_api_key=os.environ.get("API_KEY"),
@@ -34,7 +44,9 @@ vectordb_file_path = "faiss_index"
 
 def create_vector_db():
     loader = CSVLoader(
-        file_path="/Users/sourabhkumar/langchain/resume.csv", source_column="prompt"
+        # file_path="/Users/sourabhkumar/langchain/resume.csv", source_column="prompt"
+        file_path=FILE_PATH,
+        source_column="prompt",
     )
     data = loader.load()
 
